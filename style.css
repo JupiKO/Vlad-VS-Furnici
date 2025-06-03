@@ -1,0 +1,168 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: #23272f;
+}
+#gameCanvas {
+  display: block;
+}
+#menu {
+  position: fixed;
+  top: 50%;
+  right: 40px;
+  transform: translateY(-50%);
+  min-width: 340px;
+  min-height: 220px;
+  background: rgba(34, 34, 34, 0.97);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 32px 24px 32px 24px;
+  border: 1.5px solid #3a3f4b;
+}
+#menu h1 {
+  font-size: 2.2rem;
+  color: #fff;
+  margin-bottom: 32px;
+  text-align: center;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+#menu button {
+  font-size: 1.5rem;
+  padding: 16px 48px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg, #4ec04e 60%, #388e3c 100%);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  outline: none;
+}
+#menu button:hover, #menu button:focus {
+  background: linear-gradient(90deg, #388e3c 60%, #4ec04e 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(76,192,76,0.18);
+}
+
+/* Styling for the side menu */
+#sideMenu {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 150px;
+  background: rgba(34, 34, 34, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#sideMenu button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #4ec04e, #388e3c);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#sideMenu button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(76, 192, 76, 0.3);
+}
+
+#sideMenu button:active {
+  transform: scale(0.95);
+}
+
+#sideMenu img {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+
+/* Example for adding icons */
+#sideMenu .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Styling for the weapon/upgrade menu */
+.weapon-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  color: #333;
+  text-align: center;
+}
+
+.weapon-menu h1 {
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 16px;
+}
+
+.weapon-menu .stats {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.weapon-menu .upgrade {
+  font-size: 1.2rem;
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.weapon-menu .upgrade-cost {
+  font-size: 1.5rem;
+  color: #ff9800;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.weapon-menu button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #4caf50, #388e3c);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.weapon-menu button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(76, 192, 76, 0.3);
+}
+
+.weapon-menu button:active {
+  transform: scale(0.95);
+}
