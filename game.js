@@ -130,7 +130,7 @@ const BANANA_LIFETIME = 1200; // distanță maximă (pixeli) pe care o poate par
 let enemies = [];
 const ENEMY_SPAWN_INTERVAL = 7000; // 7 secunde
 const ENEMY_PER_WAVE = 8;
-const ENEMY_HP = 5;
+const ENEMY_HP = 4; // Redus de la 5
 const ENEMY_SPEED = 2.5; // viteza furnicii
 
 let lastEnemySpawn = performance.now();
@@ -206,18 +206,18 @@ m4a1Img.src = 'M4A1.png';
 let gandacverdeImg = new Image();
 gandacverdeImg.src = 'gandacverde.png'; // Asigură-te că ai o imagine gandacverde.png
 
-const GANDACVERDE_BASE_HP = 100;
+const GANDACVERDE_BASE_HP = 80; // Redus de la 100
 const GANDACVERDE_BASE_SPEED = 1.6; // Mai lent decât furnicile (care au 2.5)
-const GANDACVERDE_MONEY_REWARD = 30;
+const GANDACVERDE_MONEY_REWARD = 50; // Crescut de la 30
 const GANDACVERDE_PLACEHOLDER_RADIUS = 12; // Pentru desenarea placeholder-ului
 
 // --- CONSTANTE UPGRADE SMG ---
 const SMG_ATTACKSPEED = 8; // atacuri pe secundă pentru SMG
 
 // Constante pentru albină
-const ALBINA_BASE_HP = 6; // Mai mult HP decât furnica (5)
+const ALBINA_BASE_HP = 5; // Redus de la 6
 const ALBINA_BASE_SPEED = 5.5; // Mai rapidă decât furnica (2.5)
-const ALBINA_MONEY_REWARD = 20; // Mai mult decât furnica (10)
+const ALBINA_MONEY_REWARD = 35; // Crescut de la 20
 const ALBINA_PLACEHOLDER_RADIUS = 3; // Și mai mică decât înainte
 const ALBINA_ATTACK_RANGE = 120; // Distanța de atac
 const ALBINA_ATTACK_DAMAGE = 12; // Mărit de la 8 la 15 pentru mai mult damage
@@ -233,9 +233,9 @@ albinaImg.src = 'albina.png';
 let greierImg = new Image();
 greierImg.src = 'greier.png'; // Asigură-te că ai o imagine greier.png
 
-const GREIER_BASE_HP = 8;
+const GREIER_BASE_HP = 6; // Redus de la 8
 const GREIER_BASE_SPEED = 3.5; // Mai rapid decât furnica (2.5)
-const GREIER_MONEY_REWARD = 18;
+const GREIER_MONEY_REWARD = 30; // Crescut de la 18
 const GREIER_PLACEHOLDER_RADIUS = 9; // Puțin mai mare decât furnica
 const GREIER_DAMAGE_PER_SECOND = 6; // Mai mult decât furnica (5)
 const GREIER_JUMP_COOLDOWN = 2000; // ms între sărituri
@@ -251,9 +251,9 @@ mazgaImg.src = 'mazga.png'; // Asigură-te că ai o imagine mazga.png
 let heroticbeetleImg = new Image();
 heroticbeetleImg.src = 'heroticbeetle.png';
 
-const HEROTICBEETLE_BASE_HP = 1000; // 1000 HP în wave 10 (crescut de la 600)
+const HEROTICBEETLE_BASE_HP = 800; // Redus de la 1000
 const HEROTICBEETLE_BASE_SPEED = 0.8; // Mult mai lent (redus de la 1.2)
-const HEROTICBEETLE_MONEY_REWARD = 120; // Reward crescut pentru dificultatea mai mare
+const HEROTICBEETLE_MONEY_REWARD = 200; // Crescut de la 120
 const HEROTICBEETLE_PLACEHOLDER_RADIUS = 22; // Mult mai mare (crescut de la 16)
 const HEROTICBEETLE_DAMAGE_PER_SECOND = 20; // 20 damage pe secundă la turete
 const HEROTICBEETLE_ATTACK_RANGE = 50; // Range de atac pentru turete
@@ -265,9 +265,9 @@ let isSettingsMenuOpen = false;
 let settingsIconImg = new Image();
 settingsIconImg.src = 'settings_icon.png'; // Ensure you have this image
 
-const LIBELULA_BASE_HP = 13; // HP ajustat la 13
+const LIBELULA_BASE_HP = 10; // Redus de la 13
 const LIBELULA_BASE_SPEED = 5.0; // Medie-rapidă
-const LIBELULA_MONEY_REWARD = 60;
+const LIBELULA_MONEY_REWARD = 100; // Crescut de la 60
 const LIBELULA_PLACEHOLDER_RADIUS = 13;
 const LIBELULA_ATTACK_RANGE = 520; // Range mare
 const LIBELULA_ATTACK_DAMAGE = 10; // Damage redus per mazga (scăzut de la 14)
@@ -719,7 +719,6 @@ window.addEventListener('contextmenu', function(e) {
         }
       }
       money -= 100;
-      money -= 200; // Deduct money for placing the mine
     } else if (current_mode === 'tureta_minabani') {
       if (money < 200) {
         console.log('Nu ai destui bani pentru tureta mină bani!');
@@ -4056,21 +4055,21 @@ function spawnWaveEnemies() {
       hp: waveEnemyHP,
       maxHp: waveEnemyHP,
       speed: waveEnemySpeed,
-      moneyValue: 10,
+      moneyValue: 18, // Crescut de la 10
       collisionRadius: 18 // Furnica collision radius (marit)
     });
   }
 
   // Spawn gandaci verzi după 2 secunde la distanță mai mare
-  if (currentWave >= 3) {
+  if (currentWave >= 5) {
     setTimeout(() => {
       let numGandaciVerzi = 0;
-      if (currentWave === 3) {
+      if (currentWave === 5) {
         numGandaciVerzi = 1;
-      } else if (currentWave === 4) {
+      } else if (currentWave === 6) {
         numGandaciVerzi = 1;
-      } else if (currentWave >= 5) {
-        numGandaciVerzi = 1 + Math.floor((currentWave - 4) / 2);
+      } else if (currentWave >= 7) {
+        numGandaciVerzi = 1 + Math.floor((currentWave - 6) / 2);
       }
 
       const gandacVerdeHP = Math.round(GANDACVERDE_BASE_HP * Math.min(1 + (currentWave - 1) * 0.15, 4.0));
@@ -4093,13 +4092,13 @@ function spawnWaveEnemies() {
   }
 
   // Spawn albine după 6 secunde și la cea mai mare distanță
-  if (currentWave >= 4) {
+  if (currentWave >= 7) {
     setTimeout(() => {
       let numAlbine = 0;
-      if (currentWave === 4) {
+      if (currentWave === 7) {
         numAlbine = 3;
-      } else if (currentWave >= 5) {
-        numAlbine = 3 + Math.floor((currentWave - 4) / 2);
+      } else if (currentWave >= 8) {
+        numAlbine = 3 + Math.floor((currentWave - 7) / 2);
       }
 
       const albinaHP = Math.round(ALBINA_BASE_HP * Math.min(1 + (currentWave - 1) * 0.15, 4.0));
@@ -4125,8 +4124,8 @@ function spawnWaveEnemies() {
     }, 6000);
   }
 
-  // --- NOU: Spawn greieri începând cu wave 2 ---
-  if (currentWave >= 2) {
+  // --- NOU: Spawn greieri începând cu wave 3 ---
+  if (currentWave >= 3) {
     for ( let i = 0; i < 3; i++) {
       const pos = getSpawnPosition(3500, 4200);
       enemies.push({
@@ -4143,10 +4142,10 @@ function spawnWaveEnemies() {
     }
   }
 
-  // --- NOU: Spawn libelule începând cu wave 6 ---
-  if (currentWave >= 6) {
+  // --- NOU: Spawn libelule începând cu wave 9 ---
+  if (currentWave >= 9) {
     setTimeout(() => {
-      let numLibelule = 1 + Math.floor((currentWave - 6) / 2);
+      let numLibelule = 1 + Math.floor((currentWave - 9) / 2);
       const libelulaHP = Math.round(LIBELULA_BASE_HP * Math.min(1 + (currentWave - 1) * 0.15, 4.0));
       for (let i = 0; i < numLibelule; i++) {
         // Libelulele spawn între 6000 și 7000 unități de castel
@@ -4169,8 +4168,8 @@ function spawnWaveEnemies() {
     }, 8000);
   }
 
-  // --- NOU: Spawn heroticbeetle începând cu wave 8 și apoi la fiecare 4 wave-uri ---
-  if (currentWave >= 8 && (currentWave - 8) % 4 === 0) {
+  // --- NOU: Spawn heroticbeetle începând cu wave 11 și apoi la fiecare 4 wave-uri ---
+  if (currentWave >= 11 && (currentWave - 11) % 4 === 0) {
     setTimeout(() => {
       const heroticbeetleHP = Math.round(HEROTICBEETLE_BASE_HP * Math.min(1 + (currentWave - 1) * 0.15, 4.0));
       // Heroticbeetle spawn între 7000 și 8000 unități de castel (cea mai mare distanță)
