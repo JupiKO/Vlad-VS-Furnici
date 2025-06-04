@@ -150,7 +150,7 @@ let isGameOver = false;
 let current_mode = 'banana';
 
 // --- Sistem bani ---
-let money = 1200;
+let money = 500;
 
 /*
   BALANCED HP SCALING SYSTEM:
