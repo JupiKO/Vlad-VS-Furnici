@@ -150,7 +150,7 @@ let isGameOver = false;
 let current_mode = 'banana';
 
 // --- Sistem bani ---
-let money = 1000;
+let money = 1200;
 
 /*
   BALANCED HP SCALING SYSTEM:
@@ -208,7 +208,7 @@ gandacverdeImg.src = 'gandacverde.png'; // Asigură-te că ai o imagine gandacve
 
 const GANDACVERDE_BASE_HP = 80; // Redus de la 100
 const GANDACVERDE_BASE_SPEED = 1.6; // Mai lent decât furnicile (care au 2.5)
-const GANDACVERDE_MONEY_REWARD = 50; // Crescut de la 30
+const GANDACVERDE_MONEY_REWARD = 75; // Crescut de la 50
 const GANDACVERDE_PLACEHOLDER_RADIUS = 12; // Pentru desenarea placeholder-ului
 
 // --- CONSTANTE UPGRADE SMG ---
@@ -217,7 +217,7 @@ const SMG_ATTACKSPEED = 8; // atacuri pe secundă pentru SMG
 // Constante pentru albină
 const ALBINA_BASE_HP = 5; // Redus de la 6
 const ALBINA_BASE_SPEED = 5.5; // Mai rapidă decât furnica (2.5)
-const ALBINA_MONEY_REWARD = 35; // Crescut de la 20
+const ALBINA_MONEY_REWARD = 55; // Crescut de la 35
 const ALBINA_PLACEHOLDER_RADIUS = 3; // Și mai mică decât înainte
 const ALBINA_ATTACK_RANGE = 120; // Distanța de atac
 const ALBINA_ATTACK_DAMAGE = 12; // Mărit de la 8 la 15 pentru mai mult damage
@@ -235,7 +235,7 @@ greierImg.src = 'greier.png'; // Asigură-te că ai o imagine greier.png
 
 const GREIER_BASE_HP = 6; // Redus de la 8
 const GREIER_BASE_SPEED = 3.5; // Mai rapid decât furnica (2.5)
-const GREIER_MONEY_REWARD = 30; // Crescut de la 18
+const GREIER_MONEY_REWARD = 45; // Crescut de la 30
 const GREIER_PLACEHOLDER_RADIUS = 9; // Puțin mai mare decât furnica
 const GREIER_DAMAGE_PER_SECOND = 6; // Mai mult decât furnica (5)
 const GREIER_JUMP_COOLDOWN = 2000; // ms între sărituri
@@ -253,10 +253,10 @@ heroticbeetleImg.src = 'heroticbeetle.png';
 
 const HEROTICBEETLE_BASE_HP = 800; // Redus de la 1000
 const HEROTICBEETLE_BASE_SPEED = 0.8; // Mult mai lent (redus de la 1.2)
-const HEROTICBEETLE_MONEY_REWARD = 200; // Crescut de la 120
+const HEROTICBEETLE_MONEY_REWARD = 300; // Crescut de la 200
 const HEROTICBEETLE_PLACEHOLDER_RADIUS = 22; // Mult mai mare (crescut de la 16)
 const HEROTICBEETLE_DAMAGE_PER_SECOND = 20; // 20 damage pe secundă la turete
-const HEROTICBEETLE_ATTACK_RANGE = 50; // Range de atac pentru turete
+const HEROTICBEETLE_ATTACK_RANGE = 120; // Range de atac pentru turete (crescut de la 50)
 
 // --- NOU: Global Volume Control ---
 let masterVolume = 0.5; // Default volume at 50%
@@ -267,7 +267,7 @@ settingsIconImg.src = 'settings_icon.png'; // Ensure you have this image
 
 const LIBELULA_BASE_HP = 10; // Redus de la 13
 const LIBELULA_BASE_SPEED = 5.0; // Medie-rapidă
-const LIBELULA_MONEY_REWARD = 100; // Crescut de la 60
+const LIBELULA_MONEY_REWARD = 150; // Crescut de la 100
 const LIBELULA_PLACEHOLDER_RADIUS = 13;
 const LIBELULA_ATTACK_RANGE = 520; // Range mare
 const LIBELULA_ATTACK_DAMAGE = 10; // Damage redus per mazga (scăzut de la 14)
@@ -3010,50 +3010,8 @@ function updateEnemies() {
       continue; // Trecem la urmatorul inamic, logica pentru libelula e completa
     }
 
-    // --- AI pentru heroticbeetle: merge spre castel, ignora Ion, atacă turete în range ---
-    if (enemy.type === 'heroticbeetle') {
-      let targetTurret = null;
-      let minTurretDist = HEROTICBEETLE_ATTACK_RANGE;
-      
-      // Caută turete în range pentru atac (ignoreră Ion complet)
-      for (const turret of turrets) {
-        if (attackableTurretTypes.includes(turret.type)) {
-          const dx = turret.x - enemy.x;
-          const dy = turret.y - enemy.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < minTurretDist) {
-            minTurretDist = dist;
-            targetTurret = turret;
-          }
-        }
-      }
-      
-      if (targetTurret) {
-        // Atacă tureta dacă e în range
-        const dx = targetTurret.x - enemy.x;
-        const dy = targetTurret.y - enemy.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 1) {
-          enemy.x += (dx / dist) * enemy.speed;
-          enemy.y += (dy / dist) * enemy.speed;
-        }
-        enemy.angle = Math.atan2(enemy.y - prevY, enemy.x - prevX);
-      } else {
-        // Dacă nu sunt turete în range, merge direct spre castel
-        const dx = castleX - enemy.x;
-        const dy = castleY - enemy.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 1) {
-          enemy.x += (dx / dist) * enemy.speed;
-          enemy.y += (dy / dist) * enemy.speed;
-        }
-        enemy.angle = Math.atan2(enemy.y - prevY, enemy.x - prevX);
-      }
-      continue; // Trecem la următorul inamic, logica pentru heroticbeetle e completă
-    }
-
-    // --- Intelligent Movement for Furnica & GandacVerde ---
-    if (enemy.type === 'furnica' || enemy.type === 'gandacverde') {
+    // --- Intelligent Movement for Furnica, GandacVerde & HeroticBeetle ---
+    if (enemy.type === 'furnica' || enemy.type === 'gandacverde' || enemy.type === 'heroticbeetle') {
         let primaryTargetX = castleX;
         let primaryTargetY = castleY;
         let isPlayerTargeted = false;
@@ -3069,7 +3027,9 @@ function updateEnemies() {
                 isPlayerTargeted = true;
             }
         }
-        // For gandacverde, castle is the default primary target.
+        
+        // For gandacverde and heroticbeetle, castle is the primary target (no active turret targeting)
+        // Both will only attack walls that block their path to the castle
 
         const enemySpeed = enemy.speed;
         const enemyRadius = enemy.collisionRadius || 10; // Default if not set
@@ -3136,9 +3096,9 @@ function updateEnemies() {
             enemy.y = potentialNextY;
         }
         enemy.angle = Math.atan2(enemy.y - prevY, enemy.x - prevX);
-        continue; // End processing for furnica/gandacverde
+        continue; // End processing for furnica/gandacverde/heroticbeetle
     }
-    // --- End Intelligent Movement for Furnica & GandacVerde ---
+    // --- End Intelligent Movement for Furnica, GandacVerde & HeroticBeetle ---
 
     // --- AI Albina (ramane neschimbat) ---
     if (enemy.type === 'albina') {
@@ -3287,7 +3247,13 @@ function updateEnemies() {
       continue;
     }
 
-    // Comportament normal pentru furnici și gândaci
+    // Comportament normal pentru furnici și gândaci (heroticbeetle exclude - folosește intelligent movement)
+    if (enemy.type === 'heroticbeetle') {
+      // heroticbeetle folosește doar intelligent movement, nu intră în logica de targetare activă
+      enemy.angle = Math.atan2(enemy.y - prevY, enemy.x - prevX);
+      continue;
+    }
+    
     let targetTurret = null;
     let minTurretDist = 99999;
     for (const turret of turrets) {
@@ -3827,7 +3793,13 @@ function handleTurretDamage(speedFactor = 1) {
       const dist = Math.sqrt(dx * dx + dy * dy);
       
       // Distanță de atac diferită pentru wall-uri (mai mare) vs alte turete
-      const attackRange = (turret.type === 'wall' || turret.type === 'wall2') ? 50 : 38;
+      // HEROTICBEETLE are rază de atac mult mai mare pentru ziduri
+      let attackRange;
+      if (turret.type === 'wall' || turret.type === 'wall2') {
+        attackRange = enemy.type === 'heroticbeetle' ? 120 : 50; // HeroticBeetle: 120, altele: 50
+      } else {
+        attackRange = 38; // Turete normale
+      }
       
       if (dist < attackRange) {
         let dmg;
@@ -3841,6 +3813,11 @@ function handleTurretDamage(speedFactor = 1) {
         if (!turret._antDamageCooldown[enemy] || now - turret._antDamageCooldown[enemy] > 1000 / speedFactor) {
           turret.hp -= dmg * speedFactor;
           turret._antDamageCooldown[enemy] = now;
+          
+          // Debug logging pentru heroticbeetle damage la ziduri
+          if (enemy.type === 'heroticbeetle' && (turret.type === 'wall' || turret.type === 'wall2')) {
+            console.log(`HeroticBeetle dealing ${dmg * speedFactor} damage to ${turret.type} at distance ${Math.round(dist)}. Wall HP: ${turret.hp}/${turret.maxHp}`);
+          }
         }
       }
     }
